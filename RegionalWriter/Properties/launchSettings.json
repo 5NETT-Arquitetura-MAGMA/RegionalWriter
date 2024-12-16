@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RegionalWriter": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
