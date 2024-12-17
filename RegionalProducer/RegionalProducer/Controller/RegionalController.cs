@@ -1,5 +1,4 @@
-﻿using Core.Models;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using RegionalProducer.Controller.Dto;

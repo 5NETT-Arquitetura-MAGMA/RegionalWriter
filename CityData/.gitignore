@@ -1,0 +1,54 @@
+# Compiled object files, binaries, and libraries
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Visual Studio files
+.vscode/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider files
+.idea/
+
+# Packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+.nuget/
+
+# Logs and database files
+*.log
+*.ldf
+*.mdf
+
+# User-specific files
+*.rsuser
+*.sln.docstates
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+
+# Publish output
+publish/
+wwwroot/
+node_modules/
+bower_components/
+
+
+# GitHub files
+.github/
+
+# Docker files
+docker-compose.override.yml
