@@ -1,62 +1,128 @@
-﻿using MassTransit;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using RegionalWriter.Model.View;
 using RegionalWriter.Queue;
+using System.Text;
 
 var builder = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((context, config) =>
     {
         config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
     })
-    .ConfigureServices((context, services) =>
+    .ConfigureServices(async (context, services) =>
     {
         var configuration = context.Configuration;
         string rabbitUser = configuration["Queue:User"] ?? "guest";
         string rabbitPassword = configuration["Queue:Password"] ?? "guest";
         string rabbitHost = configuration["Queue:Host"] ?? "localhost";
-
-        services.AddMassTransit(x =>
+        // Criação da conexão RabbitMQ
+        var factory = new ConnectionFactory()
         {
-            // Registra os consumidores
-            x.AddConsumer<RegionalCreateConsumer>();
-            x.AddConsumer<RegionalUpdateConsumer>();
-            x.AddConsumer<RegionalDeleteConsumer>();
+            HostName = rabbitHost,
+            UserName = rabbitUser,
+            Password = rabbitPassword
+        };
 
-            // Configura o RabbitMQ
-            x.UsingRabbitMq((context, cfg) =>
+        var connection = await factory.CreateConnectionAsync();
+        var channel = await connection.CreateChannelAsync();
+
+        // Declaração da fila (garantir que exista)
+        await channel.QueueDeclareAsync(queue: "regional_delete",
+                              durable: true,
+                              exclusive: false,
+                              autoDelete: false,
+                              arguments: null);
+        await channel.QueueDeclareAsync(queue: "regional_update",
+                          durable: true,
+                          exclusive: false,
+                          autoDelete: false,
+                          arguments: null);
+        await channel.QueueDeclareAsync(queue: "regional_create",
+                          durable: true,
+                          exclusive: false,
+                          autoDelete: false,
+                          arguments: null);
+        Console.WriteLine(" [*] Aguardando mensagens. Pressione CTRL+C para sair.");
+
+        var consumerCreate = new AsyncEventingBasicConsumer(channel);
+        var consumerUpdate = new AsyncEventingBasicConsumer(channel);
+        var consumerDelete = new AsyncEventingBasicConsumer(channel);
+
+        consumerCreate.ReceivedAsync += async (model, ea) =>
+        {
+            try
             {
-                cfg.Host(rabbitHost, "/", h =>
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                var dto = JsonConvert.DeserializeObject<RegionalDto>(message);
+                if (dto != null)
                 {
-                    h.Username(rabbitUser);
-                    h.Password(rabbitPassword);
-                });
+                    var ctx = new RegionalCreateConsumer(configuration);
+                    await ctx.Execute(dto);
+                }
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Falha ao inserir contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+            }
+        };
 
-                // Configura os endpoints e consumidores
-                cfg.ReceiveEndpoint("regional_create", e =>
+        consumerUpdate.ReceivedAsync += async (model, ea) =>
+        {
+            try
+            {
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                var dto = JsonConvert.DeserializeObject<RegionalUpdateDto>(message);
+                if (dto != null)
                 {
-                    e.Durable = true;
-                    e.UseRawJsonSerializer();
+                    var ctx = new RegionalUpdateConsumer(configuration);
+                    await ctx.Execute(dto);
+                }
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Falha ao inserir contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+            }
+        };
 
-                    e.ConfigureConsumer<RegionalCreateConsumer>(context);
-                });
-                cfg.ReceiveEndpoint("regional_update", e =>
+        consumerDelete.ReceivedAsync += async (model, ea) =>
+        {
+            try
+            {
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                var dto = JsonConvert.DeserializeObject<RegionalDeleteDto>(message);
+                if (dto != null)
                 {
-                    e.Durable = true;
-                    e.UseRawJsonSerializer();
+                    var ctx = new RegionalDeleteConsumer(configuration);
+                    await ctx.Execute(dto);
+                }
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Falha ao inserir contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+            }
+        };
 
-                    e.ConfigureConsumer<RegionalUpdateConsumer>(context);
-                });
-                cfg.ReceiveEndpoint("regional_delete", e =>
-                {
-                    e.Durable = true;
-                    e.UseRawJsonSerializer();
-                    e.ConfigureConsumer<RegionalDeleteConsumer>(context);
-                });
-            });
-        });
+        await channel.BasicConsumeAsync(queue: "regional_create",
+                                autoAck: true,
+                                consumer: consumerCreate);
+        await channel.BasicConsumeAsync(queue: "regional_update",
+                                autoAck: true,
+                                consumer: consumerUpdate);
 
-        // Adiciona o Hosted Service do MassTransit
-        services.AddMassTransitHostedService();
+        await channel.BasicConsumeAsync(queue: "regional_delete",
+                                        autoAck: true,
+                                        consumer: consumerDelete);
+
+        Console.WriteLine("Consumidor iniciado.");
     });
 
 var host = builder.Build();

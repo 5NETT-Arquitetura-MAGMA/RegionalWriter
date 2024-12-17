@@ -1,9 +1,23 @@
+using MassTransit;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuração de serviços
 builder.Services.AddControllers(); // Adiciona os serviços de controladores
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["Queue:Host"] ?? "localhost", "/", h =>
+        {
+            h.Username(builder.Configuration["Queue:User"] ?? "guest");
+            h.Password(builder.Configuration["Queue:Password"] ?? "guest");
+        });
+    });
+});
 
 var app = builder.Build();
 

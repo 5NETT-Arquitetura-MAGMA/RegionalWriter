@@ -1,14 +1,13 @@
 ﻿using Dapper.FastCrud;
-using MassTransit;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using RegionalWriter.Model.Entity;
 using RegionalWriter.Model.View;
 using System.Data;
-using Core.Models;
 
 namespace RegionalWriter.Queue
 {
-    public class RegionalDeleteConsumer : IConsumer<RegionalDeleteDto>
+    public class RegionalDeleteConsumer
     {
         private readonly IConfiguration _configuration;
 
@@ -18,14 +17,13 @@ namespace RegionalWriter.Queue
             _configuration = configuration;
         }
 
-        public async Task Consume(ConsumeContext<RegionalDeleteDto> context)
+        public async Task Execute(RegionalDeleteDto dto)
         {
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 if (!string.IsNullOrEmpty(connectionString))
                 {
-                    var dto = context.Message;
                     if (
                         dto != null &&
                         dto.Id > 0

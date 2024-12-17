@@ -1,15 +1,14 @@
 ﻿using Dapper;
 using Dapper.FastCrud;
-using MassTransit;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using RegionalWriter.Model.Entity;
 using RegionalWriter.Model.View;
 using System.Data;
-using Core.Models;
 
 namespace RegionalWriter.Queue
 {
-    public class RegionalCreateConsumer : IConsumer<RegionalDto>
+    public class RegionalCreateConsumer
     {
         private readonly IConfiguration _configuration;
 
@@ -19,14 +18,13 @@ namespace RegionalWriter.Queue
             _configuration = configuration;
         }
 
-        public async Task Consume(ConsumeContext<RegionalDto> context)
+        public async Task Execute(RegionalDto dto)
         {
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 if (!string.IsNullOrEmpty(connectionString))
                 {
-                    var dto = context.Message;
                     if (
                         dto != null &&
                         !string.IsNullOrEmpty(dto.Nome) &&

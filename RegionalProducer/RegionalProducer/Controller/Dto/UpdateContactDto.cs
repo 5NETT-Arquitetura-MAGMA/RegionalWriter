@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace RegionalWriter.Model.View
+namespace RegionalProducer.Controller.Dto
 {
-    public class RegionalUpdateDto
+    public class UpdateContactDto
     {
+        [Required]
         [JsonProperty("id")]
         [JsonPropertyName("id")]
         public int Id { get; set; }
