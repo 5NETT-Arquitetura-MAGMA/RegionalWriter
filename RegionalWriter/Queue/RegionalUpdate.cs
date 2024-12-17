@@ -2,9 +2,9 @@
 using MassTransit;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using RegionalWriter.Model.Entity;
 using RegionalWriter.Model.View;
 using System.Data;
+using Core.Models;
 
 namespace RegionalWriter.Queue
 {

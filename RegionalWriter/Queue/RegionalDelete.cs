@@ -2,9 +2,9 @@
 using MassTransit;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using RegionalWriter.Model.Entity;
 using RegionalWriter.Model.View;
 using System.Data;
+using Core.Models;
 
 namespace RegionalWriter.Queue
 {
@@ -32,7 +32,7 @@ namespace RegionalWriter.Queue
                         )
                     {
                         using IDbConnection dbConnection = new SqlConnection(connectionString);
-                        var contact = await dbConnection.GetAsync<Contact>(new Contact { Id = dto.Id });
+                        var contact = await dbConnection.GetAsync(new Contact { Id = dto.Id });
                         if (contact != null)
                         {
                             await dbConnection.DeleteAsync(contact);

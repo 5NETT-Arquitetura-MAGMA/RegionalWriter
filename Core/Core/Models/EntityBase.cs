@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RegionalWriter.Model.Entity
+namespace Core.Models
 {
     public class EntityBase
     {

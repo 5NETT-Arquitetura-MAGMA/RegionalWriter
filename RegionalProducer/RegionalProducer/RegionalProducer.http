@@ -1,0 +1,6 @@
+@RegionalProducer_HostAddress = http://localhost:5056
+
+GET {{RegionalProducer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
