@@ -31,6 +31,21 @@ namespace CityData.Data
             }
         }
 
+        public async Task<Cidade> GetByDDD(int ddd)
+        {
+            try
+            {
+                using IDbConnection dbConnection = new SqlConnection(_connectionString);
+                var cidade = await dbConnection.GetAsync(new Cidade { DDD = ddd.ToString() });
+                return cidade;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Falha ao buscar cidade por ddd. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+                throw;
+            }
+        }
+
         public async Task<Cidade> GetAsync(int id)
         {
             try

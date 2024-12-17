@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegionalProducer", "Regiona
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core\Core.csproj", "{795F2DCA-0022-4330-9FEA-71E80745A668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityData", "CityData\CityData.csproj", "{EB3170B5-C8AA-4767-82EF-97509A759BB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityData", "CityData\CityData.csproj", "{EB3170B5-C8AA-4767-82EF-97509A759BB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegionalData", "RegionalData\RegionalData.csproj", "{0FF2DB94-986D-47C1-8283-059769A8D0A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EB3170B5-C8AA-4767-82EF-97509A759BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB3170B5-C8AA-4767-82EF-97509A759BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB3170B5-C8AA-4767-82EF-97509A759BB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

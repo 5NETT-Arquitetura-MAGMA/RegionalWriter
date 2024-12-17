@@ -7,5 +7,7 @@ namespace CityData.Core.Interface.Service
         Task<List<Cidade>> GetAllAsync();
 
         Task<Cidade> GetAsync(int id);
+
+        Task<Cidade> GetByDDD(int ddd);
     }
 }

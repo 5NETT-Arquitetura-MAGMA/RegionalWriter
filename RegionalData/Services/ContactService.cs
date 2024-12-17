@@ -1,24 +1,24 @@
-﻿using CityData.Core.Interface.Service;
-using CityData.Core.Models.Entity;
-using CityData.Data;
+﻿using RegionalData.Core.Interface.Service;
+using RegionalData.Core.Models.Entity;
+using RegionalData.Data;
 
-namespace CityData.Services
+namespace RegionalData.Services
 {
-    public class CityService : ICityService
+    public class ContactService : IContactService
     {
         private readonly IConfiguration _configuration;
 
-        public CityService(IConfiguration configuration)
+        public ContactService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<List<Cidade>> GetAllAsync()
+        public async Task<List<Contact>> GetAllAsync()
         {
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                var repository = new CityRepository(connectionString);
+                var repository = new ContactRepository(connectionString);
                 return await repository.GetAllAsync();
             }
             catch (Exception ex)
@@ -28,32 +28,32 @@ namespace CityData.Services
             }
         }
 
-        public async Task<Cidade> GetByDDD(int ddd)
+        public async Task<Contact> GetAsync(int id)
         {
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                var repository = new CityRepository(connectionString);
-                return await repository.GetByDDD(ddd);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($@"Falha ao buscar cidade por ddd. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
-                return null;
-            }
-        }
-
-        public async Task<Cidade> GetAsync(int id)
-        {
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                var repository = new CityRepository(connectionString);
+                var repository = new ContactRepository(connectionString);
                 return await repository.GetAsync(id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($@"Falha ao buscar cidade. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+                Console.WriteLine($@"Falha ao buscar cidades. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+                return null;
+            }
+        }
+
+        public async Task<List<Contact>> GetByEmail(string email)
+        {
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                var repository = new ContactRepository(connectionString);
+                return await repository.GetByEmail(email);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Falha ao buscar cidades. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
                 return null;
             }
         }

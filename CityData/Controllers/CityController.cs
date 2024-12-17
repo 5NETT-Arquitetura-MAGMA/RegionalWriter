@@ -12,13 +12,13 @@ namespace CityData.Controllers
         private const string CacheKey = "Cidades";
         private readonly ILogger<CityController> _logger;
         private readonly IMemoryCache _memoryCache;
-        private readonly ICityService _cityService;
+        private readonly ICityService _service;
 
-        public CityController(ILogger<CityController> logger, IMemoryCache memoryCache, ICityService cityService)
+        public CityController(ILogger<CityController> logger, IMemoryCache memoryCache, ICityService service)
         {
             _memoryCache = memoryCache;
             _logger = logger;
-            _cityService = cityService;
+            _service = service;
         }
 
         [HttpGet("")]
@@ -26,7 +26,7 @@ namespace CityData.Controllers
         {
             if (!_memoryCache.TryGetValue(CacheKey, out List<CityDto> cidades))
             {
-                var cidadesEntity = await _cityService.GetAllAsync();
+                var cidadesEntity = await _service.GetAllAsync();
 
                 if (cidadesEntity == null || !cidadesEntity.Any())
                 {
@@ -60,7 +60,29 @@ namespace CityData.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CityDto>> Get(int id)
         {
-            var cidadeEntity = await _cityService.GetAsync(id);
+            var cidadeEntity = await _service.GetAsync(id);
+
+            if (cidadeEntity == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                var cidade = new CityDto()
+                {
+                    NomeCidade = cidadeEntity.NomeCidade,
+                    Id = cidadeEntity.Id,
+                    Estado = cidadeEntity.Estado,
+                    DDD = cidadeEntity.DDD
+                };
+                return Ok(cidade);
+            }
+        }
+
+        [HttpGet("ByDDD/{id}")]
+        public async Task<ActionResult<CityDto>> GetByDDD(int ddd)
+        {
+            var cidadeEntity = await _service.GetByDDD(ddd);
 
             if (cidadeEntity == null)
             {

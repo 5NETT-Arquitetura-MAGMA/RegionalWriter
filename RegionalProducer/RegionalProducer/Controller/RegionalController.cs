@@ -1,14 +1,14 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RegionalProducer.Controller.Dto;
 using System.Text;
-using System.Text.Json;
 
 namespace RegionalProducer.Controller;
 
 [ApiController]
-[Route("[controller]")]
+[Route("Contact")]
 public class RegionalController : ControllerBase
 {
     private readonly IConfiguration _configuration;
@@ -22,8 +22,105 @@ public class RegionalController : ControllerBase
         _bus = bus;
     }
 
+    [HttpGet("")]
+    public async Task<ActionResult<List<ContactDto>>> GetAll()
+    {
+        try
+        {
+            var client = new HttpClient();
+            var url = _configuration["Data:Contacts"];
+            if (!string.IsNullOrEmpty(url))
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, "Contact"));
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var contatosStr = await response.Content.ReadAsStringAsync();
+                    var contatos = JsonConvert.DeserializeObject<List<ContactDto>>(contatosStr);
+
+                    return Ok(contatos);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($@"Falha ao buscar contatos. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+
+            return Ok(new { success = false });
+        }
+        return NotFound();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ContactDto>> Get(int id)
+    {
+        try
+        {
+            try
+            {
+                var client = new HttpClient();
+                var url = _configuration["Data:Contacts"];
+                if (!string.IsNullOrEmpty(url))
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, $"Contact/{id}"));
+                    var response = await client.SendAsync(request);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var contatosStr = await response.Content.ReadAsStringAsync();
+                        var contato = JsonConvert.DeserializeObject<ContactDto>(contatosStr);
+
+                        return Ok(contato);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Falha ao buscar contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+
+                return Ok(new { success = false });
+            }
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($@"Falha ao buscar contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+
+            return Ok(new { success = false });
+        }
+        return NotFound();
+    }
+
+    [HttpGet("ByEmail/{email}")]
+    public async Task<ActionResult<List<ContactDto>>> ByEmail(string email)
+    {
+        try
+        {
+            var client = new HttpClient();
+            var url = _configuration["Data:Contacts"];
+            if (!string.IsNullOrEmpty(url))
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, $"Contact/ByEmail/{Flurl.Url.EncodeIllegalCharacters(email)}"));
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var contatosStr = await response.Content.ReadAsStringAsync();
+                    var contatos = JsonConvert.DeserializeObject<List<ContactDto>>(contatosStr);
+
+                    return Ok(contatos);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($@"Falha ao buscar contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+
+            return Ok(new { success = false });
+        }
+        return NotFound();
+    }
+
     [HttpPost]
-    [Route("/Contact")]
+    [Route("")]
     public async Task<IActionResult> Post([FromBody] PostContactDto contact)
     {
         try
@@ -48,7 +145,7 @@ public class RegionalController : ControllerBase
             await using var channel = await connection.CreateChannelAsync();
             await channel.QueueDeclareAsync("regional_create", true, false, false, null);
 
-            var message = JsonSerializer.Serialize(contact);
+            var message = JsonConvert.SerializeObject(contact);
             var body = Encoding.UTF8.GetBytes(message);
             await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_create", body: body);
 
@@ -63,7 +160,7 @@ public class RegionalController : ControllerBase
     }
 
     [HttpPut]
-    [Route("/Contact")]
+    [Route("")]
     public async Task<IActionResult> Update([FromBody] UpdateContactDto contact)
     {
         try
@@ -82,7 +179,7 @@ public class RegionalController : ControllerBase
             await using var connection = await factory.CreateConnectionAsync();
             await using var channel = await connection.CreateChannelAsync();
             await channel.QueueDeclareAsync("regional_update", true, false, false, null);
-            var message = JsonSerializer.Serialize(contact);
+            var message = JsonConvert.SerializeObject(contact);
             var body = Encoding.UTF8.GetBytes(message);
             await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_update", body: body);
             return Ok(new { success = true });
@@ -96,7 +193,7 @@ public class RegionalController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("/Contact")]
+    [Route("")]
     public async Task<IActionResult> Delete([FromBody] int id)
     {
         try
@@ -115,7 +212,7 @@ public class RegionalController : ControllerBase
             await using var connection = await factory.CreateConnectionAsync();
             await using var channel = await connection.CreateChannelAsync();
             await channel.QueueDeclareAsync("regional_delete", true, false, false, null);
-            var message = JsonSerializer.Serialize(new { id });
+            var message = JsonConvert.SerializeObject(new { id });
             var body = Encoding.UTF8.GetBytes(message);
             await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_delete", body: body);
             return Ok(new { success = true });
