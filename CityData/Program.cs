@@ -19,14 +19,15 @@ builder.Services.UseHttpClientMetrics();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 #region Prometheus
+
 app.UseMetricServer();
 app.UseHttpMetrics();
+
 #endregion Prometheus
 
 app.UseHttpsRedirection();

@@ -31,11 +31,9 @@ app.UseHttpMetrics();
 #endregion Prometheus
 
 // Middleware e pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

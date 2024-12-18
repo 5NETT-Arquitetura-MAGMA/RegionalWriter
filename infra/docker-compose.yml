@@ -1,4 +1,51 @@
 services:
+  citydata:
+    build:
+      context: ../CityData
+      dockerfile: Dockerfile
+    container_name: citydata
+    ports:
+      - "5002:80"
+      - "8083:8080"
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+    networks:
+      - mynw
+  regionaldata:
+    build:
+      context: ../RegionalData
+      dockerfile: Dockerfile
+    container_name: regionaldata
+    ports:
+      - "5001:80"
+      - "8082:8080"
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+    networks:
+      - mynw
+  regionalproducer:
+    build:
+      context: ../RegionalProducer/RegionalProducer
+      dockerfile: Dockerfile
+    container_name: regionalproducer
+    ports:
+      - "5000:80"
+      - "8081:8080"
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+    networks:
+      - mynw
+  regionalwriter:
+    build:
+      context: ../RegionalWriter
+      dockerfile: Dockerfile
+    container_name: regionalwriter
+    ports:
+      - "8080:8080"
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+    networks:
+      - mynw
   rabbitmq:
     image: masstransit/rabbitmq
     restart: always
@@ -8,6 +55,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=regional
       - RABBITMQ_DEFAULT_PASS=R3gional!234
+    networks:
+      - mynw
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -16,8 +65,8 @@ services:
     ports:
       - 1433:1433
 
-  init-db: 
-    image: mcr.microsoft.com/mssql/server:2019-latest 
+  init-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
     depends_on:
       - db
     environment:
@@ -27,3 +76,27 @@ services:
       - ./scripts:/scripts
     user: root
     command: /bin/bash -c "apt-get update && apt-get install -y mssql-tools unixodbc-dev && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P tIy6obw6NF27 -i /scripts/cria_banco.sql"
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - mynw
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - mynw
+networks:
+  mynw:

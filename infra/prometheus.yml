@@ -1,0 +1,15 @@
+global:
+  scrape_interval:     10s
+scrape_configs:
+  - job_name: 'regionalwriter'
+    static_configs:
+      - targets: ['regionalwriter:8080']
+  - job_name: 'regionalproducer'
+    static_configs:
+      - targets: ['regionalproducer:8080']
+  - job_name: 'regionaldata'
+    static_configs:
+      - targets: ['regionaldata:8080']
+  - job_name: 'citydata'
+    static_configs:
+      - targets: ['citydata:8080']
