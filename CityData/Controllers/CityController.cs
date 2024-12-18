@@ -80,24 +80,28 @@ namespace CityData.Controllers
         }
 
         [HttpGet("ByDDD/{ddd}")]
-        public async Task<ActionResult<CityDto>> GetByDDD(int ddd)
+        public async Task<ActionResult<List<CityDto>>> GetByDDD(int ddd)
         {
-            var cidadeEntity = await _service.GetByDDD(ddd);
+            var cidadesEntity = await _service.GetByDDD(ddd);
 
-            if (cidadeEntity == null)
+            if (cidadesEntity == null)
             {
                 return NotFound();
             }
             else
             {
-                var cidade = new CityDto()
+                var cidades = new List<CityDto>();
+                foreach (var c in cidadesEntity)
                 {
-                    NomeCidade = cidadeEntity.NomeCidade,
-                    Id = cidadeEntity.Id,
-                    Estado = cidadeEntity.Estado,
-                    DDD = cidadeEntity.DDD
-                };
-                return Ok(cidade);
+                    cidades.Add(new CityDto()
+                    {
+                        NomeCidade = c.NomeCidade,
+                        Id = c.Id,
+                        Estado = c.Estado,
+                        DDD = c.DDD
+                    });
+                }
+                return Ok(cidades);
             }
         }
     }

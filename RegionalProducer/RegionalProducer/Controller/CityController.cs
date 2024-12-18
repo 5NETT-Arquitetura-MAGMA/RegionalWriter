@@ -72,7 +72,7 @@ namespace RegionalProducer.Controller
         }
 
         [HttpGet("ByDDD/{ddd}")]
-        public async Task<ActionResult<CityDto>> ByDDD(int ddd)
+        public async Task<ActionResult<List<CityDto>>> ByDDD(int ddd)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace RegionalProducer.Controller
                     if (response.IsSuccessStatusCode)
                     {
                         var cidadesStr = await response.Content.ReadAsStringAsync();
-                        var cidades = JsonConvert.DeserializeObject<CityDto>(cidadesStr);
+                        var cidades = JsonConvert.DeserializeObject<List<CityDto>>(cidadesStr);
 
                         return Ok(cidades);
                     }

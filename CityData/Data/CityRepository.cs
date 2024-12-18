@@ -32,12 +32,12 @@ namespace CityData.Data
             }
         }
 
-        public async Task<Cidade> GetByDDD(int ddd)
+        public async Task<List<Cidade>> GetByDDD(int ddd)
         {
             try
             {
                 using IDbConnection dbConnection = new SqlConnection(_connectionString);
-                var cidade = await dbConnection.QueryFirstOrDefaultAsync<Cidade>($"select * from cidades where ddd = {ddd}");
+                var cidade = (await dbConnection.QueryAsync<Cidade>($"select * from cidades where ddd = {ddd}")).ToList();
                 return cidade;
             }
             catch (Exception ex)

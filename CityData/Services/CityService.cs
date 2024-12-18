@@ -28,7 +28,7 @@ namespace CityData.Services
             }
         }
 
-        public async Task<Cidade> GetByDDD(int ddd)
+        public async Task<List<Cidade>> GetByDDD(int ddd)
         {
             try
             {

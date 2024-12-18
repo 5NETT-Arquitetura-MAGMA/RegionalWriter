@@ -8,6 +8,6 @@ namespace CityData.Core.Interface.Service
 
         Task<Cidade> GetAsync(int id);
 
-        Task<Cidade> GetByDDD(int ddd);
+        Task<List<Cidade>> GetByDDD(int ddd);
     }
 }

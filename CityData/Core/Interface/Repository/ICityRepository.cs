@@ -7,5 +7,7 @@ namespace CityData.Core.Interface.Repository
         Task<List<Cidade>> GetAllAsync();
 
         Task<Cidade> GetAsync(int id);
+
+        Task<List<Cidade>> GetByDDD(int ddd);
     }
 }
