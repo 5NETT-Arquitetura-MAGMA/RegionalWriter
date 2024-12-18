@@ -71,7 +71,7 @@ namespace RegionalProducer.Controller
             return NotFound();
         }
 
-        [HttpGet("ByDDD/{id}")]
+        [HttpGet("ByDDD/{ddd}")]
         public async Task<ActionResult<CityDto>> ByDDD(int ddd)
         {
             try
