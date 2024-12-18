@@ -12,10 +12,6 @@ using System.Text;
 var metricsServer = new KestrelMetricServer(port: 8080);
 metricsServer.Start();
 
-var publishedMessages = Metrics.CreateCounter("rabbitmq_published_messages_total", "Total de mensagens publicadas", new CounterConfiguration
-{
-    LabelNames = ["queue"]
-});
 var consumedMessages = Metrics.CreateCounter("rabbitmq_consumed_messages_total", "Total de mensagens consumidas", new CounterConfiguration
 {
     LabelNames = ["queue"]
@@ -29,7 +25,14 @@ var messageProcessingTime = Metrics.CreateHistogram("rabbitmq_message_processing
     LabelNames = ["queue"],
     Buckets = Histogram.ExponentialBuckets(0.01, 2, 10)
 });
+var queues = new[] { "regional_create", "regional_update", "regional_delete" };
 
+foreach (var queue in queues)
+{
+    consumedMessages.WithLabels(queue).Inc(0); // Incrementa em zero para registrar a métrica
+    failedMessages.WithLabels(queue).Inc(0);   // Para mensagens com falha
+    messageProcessingTime.WithLabels(queue).Observe(0); // Inicializa histogramas
+}
 var builder = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((context, config) =>
     {

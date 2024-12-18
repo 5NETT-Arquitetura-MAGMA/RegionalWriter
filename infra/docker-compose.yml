@@ -1,5 +1,6 @@
 services:
   citydata:
+    restart: always
     build:
       context: ../CityData
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
     networks:
       - mynw
   regionaldata:
+    restart: always
     build:
       context: ../RegionalData
       dockerfile: Dockerfile
@@ -24,6 +26,7 @@ services:
     networks:
       - mynw
   regionalproducer:
+    restart: always
     build:
       context: ../RegionalProducer/RegionalProducer
       dockerfile: Dockerfile
@@ -41,6 +44,7 @@ services:
     networks:
       - mynw
   regionalwriter:
+    restart: always
     build:
       context: ../RegionalWriter
       dockerfile: Dockerfile
@@ -60,8 +64,6 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=regional
       - RABBITMQ_DEFAULT_PASS=R3gional!234
-      - RABBITMQ_PROMETHEUS=true
-    command: rabbitmq-plugins enable rabbitmq_prometheus
     networks:
       - mynw
   # db:
@@ -85,6 +87,7 @@ services:
   #   command: /bin/bash -c "apt-get update && apt-get install -y mssql-tools unixodbc-dev && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P tIy6obw6NF27 -i /scripts/cria_banco.sql"
   prometheus:
     image: prom/prometheus
+    restart: always
     ports:
       - "9090:9090"
     depends_on:
@@ -97,6 +100,7 @@ services:
       - mynw
   grafana:
     image: grafana/grafana
+    restart: always
     ports:
       - "3000:3000"
     environment:
