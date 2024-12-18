@@ -15,7 +15,8 @@
         <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
         <PackageReference Include="System.Text.Json" Version="9.0.0" />
-    </ItemGroup>
+		<PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
+	</ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Core\Core.csproj" />
