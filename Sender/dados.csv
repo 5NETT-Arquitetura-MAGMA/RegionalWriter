@@ -1,0 +1,101 @@
+Nome,Telefone,DDD,Email,Estado,Cidade
+Fernanda Ribeiro,724184564,64,fernanda.ribeiro@example.com.br,RS,Salvador
+Juliana Duarte,890560782,85,juliana.duarte@example.com.br,BA,Florianópolis
+Camila Ferreira,147368568,40,camila.ferreira@example.com.br,DF,Recife
+Patrícia Nunes,856108843,43,patrícia.nunes@example.com.br,SC,Porto Alegre
+Lucas Almeida,803697290,84,lucas.almeida@example.com.br,RJ,Florianópolis
+Fernanda Ribeiro,138830596,73,fernanda.ribeiro@example.com.br,SC,Recife
+Juliana Duarte,416381240,20,juliana.duarte@example.com.br,DF,Rio de Janeiro
+Rafael Oliveira,552499939,29,rafael.oliveira@example.com.br,BA,Florianópolis
+Rafael Oliveira,164376973,71,rafael.oliveira@example.com.br,SC,Recife
+Rafael Oliveira,679098206,75,rafael.oliveira@example.com.br,MG,Rio de Janeiro
+Ricardo Martins,912453455,30,ricardo.martins@example.com.br,RS,Rio de Janeiro
+Fernanda Ribeiro,738905087,97,fernanda.ribeiro@example.com.br,RJ,Salvador
+Rafael Oliveira,177936241,64,rafael.oliveira@example.com.br,RS,Salvador
+Camila Ferreira,736505184,28,camila.ferreira@example.com.br,GO,Recife
+Gustavo Rocha,525908576,44,gustavo.rocha@example.com.br,DF,Rio de Janeiro
+Lucas Almeida,806153346,34,lucas.almeida@example.com.br,SP,Brasília
+Rafael Oliveira,532297942,46,rafael.oliveira@example.com.br,DF,Curitiba
+Mariana Souza,796495524,60,mariana.souza@example.com.br,RJ,São Paulo
+Pedro Mendes,706796157,63,pedro.mendes@example.com.br,SP,Rio de Janeiro
+Ricardo Martins,561399579,24,ricardo.martins@example.com.br,PE,Belo Horizonte
+Rafael Oliveira,838525993,84,rafael.oliveira@example.com.br,PR,Goiânia
+Camila Ferreira,698529447,63,camila.ferreira@example.com.br,GO,Salvador
+Patrícia Nunes,288474538,68,patrícia.nunes@example.com.br,PE,Goiânia
+Ricardo Martins,909007488,49,ricardo.martins@example.com.br,PR,Salvador
+Patrícia Nunes,629456917,30,patrícia.nunes@example.com.br,BA,Florianópolis
+Mariana Souza,358579011,24,mariana.souza@example.com.br,SP,São Paulo
+Juliana Duarte,793919972,94,juliana.duarte@example.com.br,SC,Curitiba
+Fernanda Ribeiro,787842173,86,fernanda.ribeiro@example.com.br,SP,Salvador
+Mariana Souza,438688793,58,mariana.souza@example.com.br,PE,Brasília
+Fernanda Ribeiro,869595371,50,fernanda.ribeiro@example.com.br,DF,São Paulo
+Patrícia Nunes,641590072,59,patrícia.nunes@example.com.br,PR,Florianópolis
+Lucas Almeida,341566684,34,lucas.almeida@example.com.br,RS,Goiânia
+Fernanda Ribeiro,874742288,44,fernanda.ribeiro@example.com.br,RJ,Goiânia
+Rafael Oliveira,738011917,96,rafael.oliveira@example.com.br,SP,São Paulo
+Patrícia Nunes,398740985,97,patrícia.nunes@example.com.br,RJ,Salvador
+Ricardo Martins,439522380,22,ricardo.martins@example.com.br,PE,Recife
+Patrícia Nunes,971772642,83,patrícia.nunes@example.com.br,SP,Curitiba
+Ricardo Martins,837443628,29,ricardo.martins@example.com.br,GO,Brasília
+Lucas Almeida,693546377,11,lucas.almeida@example.com.br,GO,Brasília
+Gustavo Rocha,877439589,42,gustavo.rocha@example.com.br,PE,Goiânia
+Gustavo Rocha,486914526,96,gustavo.rocha@example.com.br,RS,Curitiba
+Lucas Almeida,808398203,24,lucas.almeida@example.com.br,RS,Belo Horizonte
+Fernanda Ribeiro,592869478,26,fernanda.ribeiro@example.com.br,PR,São Paulo
+Gustavo Rocha,813254242,43,gustavo.rocha@example.com.br,DF,Porto Alegre
+Juliana Duarte,401417865,62,juliana.duarte@example.com.br,SC,Brasília
+Patrícia Nunes,444475416,31,patrícia.nunes@example.com.br,DF,São Paulo
+Lucas Almeida,329773150,30,lucas.almeida@example.com.br,RJ,Recife
+Gustavo Rocha,985324525,15,gustavo.rocha@example.com.br,SC,Belo Horizonte
+Ricardo Martins,465324691,83,ricardo.martins@example.com.br,RJ,Belo Horizonte
+Lucas Almeida,989644894,61,lucas.almeida@example.com.br,DF,Recife
+Fernanda Ribeiro,977757375,55,fernanda.ribeiro@example.com.br,PR,Florianópolis
+Mariana Souza,533226418,56,mariana.souza@example.com.br,SC,Curitiba
+Patrícia Nunes,136970963,73,patrícia.nunes@example.com.br,SC,Recife
+Patrícia Nunes,978428616,13,patrícia.nunes@example.com.br,SC,Rio de Janeiro
+Patrícia Nunes,174930941,44,patrícia.nunes@example.com.br,BA,Goiânia
+Mariana Souza,432132314,49,mariana.souza@example.com.br,PE,Goiânia
+Gustavo Rocha,483712997,21,gustavo.rocha@example.com.br,PE,Goiânia
+Fernanda Ribeiro,535507968,75,fernanda.ribeiro@example.com.br,PE,Belo Horizonte
+Patrícia Nunes,552048367,55,patrícia.nunes@example.com.br,BA,Salvador
+Juliana Duarte,212972975,95,juliana.duarte@example.com.br,SC,Brasília
+Mariana Souza,246554316,21,mariana.souza@example.com.br,DF,Rio de Janeiro
+Lucas Almeida,627644104,40,lucas.almeida@example.com.br,RJ,Florianópolis
+Juliana Duarte,845879185,96,juliana.duarte@example.com.br,RS,São Paulo
+Camila Ferreira,647321300,51,camila.ferreira@example.com.br,RJ,Goiânia
+Mariana Souza,228010302,77,mariana.souza@example.com.br,DF,São Paulo
+Pedro Mendes,789315679,25,pedro.mendes@example.com.br,GO,Florianópolis
+Camila Ferreira,780635090,98,camila.ferreira@example.com.br,MG,Goiânia
+Mariana Souza,240283364,25,mariana.souza@example.com.br,RS,Belo Horizonte
+Patrícia Nunes,446303350,81,patrícia.nunes@example.com.br,RJ,São Paulo
+Ricardo Martins,358699945,43,ricardo.martins@example.com.br,BA,Belo Horizonte
+Ricardo Martins,771398305,13,ricardo.martins@example.com.br,SC,Porto Alegre
+Mariana Souza,375294314,92,mariana.souza@example.com.br,MG,Florianópolis
+Gustavo Rocha,405251739,41,gustavo.rocha@example.com.br,RS,Rio de Janeiro
+Rafael Oliveira,242969639,97,rafael.oliveira@example.com.br,SC,Brasília
+Camila Ferreira,430863492,37,camila.ferreira@example.com.br,GO,Recife
+Gustavo Rocha,362064138,33,gustavo.rocha@example.com.br,SP,Salvador
+Pedro Mendes,536816510,80,pedro.mendes@example.com.br,RS,Belo Horizonte
+Rafael Oliveira,835893578,64,rafael.oliveira@example.com.br,DF,Belo Horizonte
+Fernanda Ribeiro,468216292,74,fernanda.ribeiro@example.com.br,MG,São Paulo
+Patrícia Nunes,168031043,67,patrícia.nunes@example.com.br,RJ,Goiânia
+Pedro Mendes,244220092,71,pedro.mendes@example.com.br,DF,São Paulo
+Lucas Almeida,978154464,47,lucas.almeida@example.com.br,GO,Curitiba
+Juliana Duarte,145307120,48,juliana.duarte@example.com.br,PR,Rio de Janeiro
+Rafael Oliveira,726291479,74,rafael.oliveira@example.com.br,SP,Florianópolis
+Patrícia Nunes,654925405,68,patrícia.nunes@example.com.br,PE,Brasília
+Camila Ferreira,537845696,40,camila.ferreira@example.com.br,PE,São Paulo
+Pedro Mendes,988336344,69,pedro.mendes@example.com.br,SC,Florianópolis
+Fernanda Ribeiro,524079394,58,fernanda.ribeiro@example.com.br,MG,Brasília
+Fernanda Ribeiro,298440742,20,fernanda.ribeiro@example.com.br,MG,Rio de Janeiro
+Lucas Almeida,101083099,93,lucas.almeida@example.com.br,MG,Brasília
+Ricardo Martins,408146675,26,ricardo.martins@example.com.br,GO,Brasília
+Gustavo Rocha,657246947,93,gustavo.rocha@example.com.br,RJ,São Paulo
+Ricardo Martins,983393264,75,ricardo.martins@example.com.br,PE,Rio de Janeiro
+Camila Ferreira,279754943,91,camila.ferreira@example.com.br,RJ,Belo Horizonte
+Mariana Souza,762081713,47,mariana.souza@example.com.br,PR,Brasília
+Patrícia Nunes,932797841,81,patrícia.nunes@example.com.br,MG,Florianópolis
+Mariana Souza,224046297,95,mariana.souza@example.com.br,SC,Salvador
+Fernanda Ribeiro,572923023,31,fernanda.ribeiro@example.com.br,MG,Rio de Janeiro
+Lucas Almeida,465905637,19,lucas.almeida@example.com.br,PE,Goiânia
+Juliana Duarte,294340835,59,juliana.duarte@example.com.br,RJ,Porto Alegre

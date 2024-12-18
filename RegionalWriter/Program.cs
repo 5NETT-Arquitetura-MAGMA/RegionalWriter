@@ -101,6 +101,7 @@ var builder = Host.CreateDefaultBuilder(args)
         Console.WriteLine("Consumidor iniciado.");
         async Task ProcessMessageAsync(BasicDeliverEventArgs ea, string queueName, IConfiguration config)
         {
+            Console.WriteLine($"Fila {queueName} recebida");
             var stopwatch = Stopwatch.StartNew();
             try
             {

@@ -1,5 +1,7 @@
 import pika
 import json
+import requests
+import csv
 
 # Configurações do RabbitMQ
 rabbit_host = 'localhost'
@@ -11,16 +13,6 @@ credentials = pika.PlainCredentials(rabbit_user, rabbit_password)
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, credentials=credentials))
 channel = connection.channel()
 
-# Mensagem
-message = {
-    "nome": "João da Silva",
-    "telefone": 955775049,
-    "ddd": 11,
-    "email": "joao.silva@example.com",
-    "estado": "SP",
-    "cidade": "São Paulo"
-}
-
 # Declaração da fila como durável
 channel.queue_declare(queue='regional_create', durable=True)
 
@@ -29,16 +21,32 @@ headers = {
     "Content-Type": "application/json",
 }
 
-# Publicar mensagem com cabeçalhos
-channel.basic_publish(
-    exchange='',
-    routing_key='regional_create',
-    body=json.dumps(message),
-    properties=pika.BasicProperties(
-        delivery_mode=2,  # Faz a mensagem persistir
-        headers=headers
-    )
-)
+# Caminho do arquivo CSV
+csv_file_path = 'dados.csv'
 
-print("Mensagem enviada!")
+# Ler o arquivo CSV e enviar mensagens ao RabbitMQ
+with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
+    reader = csv.DictReader(csvfile)
+    
+    for row in reader:
+        # Preencher o JSON com dados da linha do CSV
+        message = {
+            "nome": row.get("Nome", ""),
+            "telefone": int(row.get("Telefone", 0)),
+            "ddd": int(row.get("DDD", 0)),
+            "email": row.get("Email", ""),
+            "estado": row.get("Estado", ""),
+            "cidade": row.get("Cidade", "")
+        }
+        payload = json.dumps(message)
+        print(payload)
+        headers = {
+        'Content-Type': 'application/json'
+        }
+        url = "http://localhost:5056/Contact"
+        response = requests.request("POST", url, headers=headers, data=payload,verify=False)
+
+        print(response.text)
+# Fechar a conexão
 connection.close()
+print("Conexão encerrada!")

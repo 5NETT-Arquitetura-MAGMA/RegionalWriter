@@ -57,7 +57,29 @@ namespace RegionalWriter.Queue
 
                             Console.WriteLine("Registro inserido com sucesso!");
                         }
+                        else
+                        {
+                            var contact = new Contact()
+                            {
+                                Cidade = dto.Cidade,
+                                Estado = dto.Estado,
+                                Email = dto.Email,
+                                DDD = dto.DDD,
+                                Nome = dto.Nome,
+                                Telefone = dto.Telefone
+                            };
+                            await dbConnection.InsertAsync(contact);
+                            Console.WriteLine("Registro inserido com sucesso!");
+                        }
                     }
+                    else
+                    {
+                        Console.WriteLine("Dados encaminhados de forma incorreta");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Banco configurado incorretamente");
                 }
             }
             catch (Exception ex)
