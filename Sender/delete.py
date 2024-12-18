@@ -1,39 +1,9 @@
-import pika
-import json
+import requests
 
-# Configurações do RabbitMQ
-rabbit_host = 'localhost'
-rabbit_user = 'regional'
-rabbit_password = 'R3gional!234'
-
-# Conexão com o RabbitMQ
-credentials = pika.PlainCredentials(rabbit_user, rabbit_password)
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, credentials=credentials))
-channel = connection.channel()
-
-# Mensagem
-message = {
-    "id":5,
-}
-
-# Declaração da fila como durável
-channel.queue_declare(queue='regional_delete', durable=True)
-
-# Adicionar cabeçalhos compatíveis com o MassTransit
 headers = {
-    "Content-Type": "application/json",
+'Content-Type': 'application/json'
 }
+url = "http://localhost:8081/Contact/313"
+response = requests.request("DELETE", url, headers=headers, verify=False)
 
-# Publicar mensagem com cabeçalhos
-channel.basic_publish(
-    exchange='',
-    routing_key='regional_delete',
-    body=json.dumps(message),
-    properties=pika.BasicProperties(
-        delivery_mode=2,  # Faz a mensagem persistir
-        headers=headers
-    )
-)
-
-print("Mensagem enviada!")
-connection.close()
+print("Requisição enviada!")

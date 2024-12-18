@@ -1,19 +1,9 @@
-import pika
+import requests
 import json
-
-# Configurações do RabbitMQ
-rabbit_host = 'localhost'
-rabbit_user = 'regional'
-rabbit_password = 'R3gional!234'
-
-# Conexão com o RabbitMQ
-credentials = pika.PlainCredentials(rabbit_user, rabbit_password)
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, credentials=credentials))
-channel = connection.channel()
 
 # Mensagem
 message = {
-    "id":5,
+    "id":312,
     "nome": "João da Silva",
     "telefone": 955447788,
     "ddd": 11,
@@ -22,24 +12,12 @@ message = {
     "cidade": "São Paulo"
 }
 
-# Declaração da fila como durável
-channel.queue_declare(queue='regional_update', durable=True)
-
-# Adicionar cabeçalhos compatíveis com o MassTransit
+payload = json.dumps(message)
+print(payload)
 headers = {
-    "Content-Type": "application/json",
+'Content-Type': 'application/json'
 }
+url = "http://localhost:8081/Contact"
+response = requests.request("PUT", url, headers=headers, data=payload,verify=False)
 
-# Publicar mensagem com cabeçalhos
-channel.basic_publish(
-    exchange='',
-    routing_key='regional_update',
-    body=json.dumps(message),
-    properties=pika.BasicProperties(
-        delivery_mode=2,  # Faz a mensagem persistir
-        headers=headers
-    )
-)
-
-print("Mensagem enviada!")
-connection.close()
+print("Requisição enviada!")

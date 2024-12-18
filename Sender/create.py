@@ -1,25 +1,6 @@
-import pika
 import json
 import requests
 import csv
-
-# Configurações do RabbitMQ
-rabbit_host = 'localhost'
-rabbit_user = 'regional'
-rabbit_password = 'R3gional!234'
-
-# Conexão com o RabbitMQ
-credentials = pika.PlainCredentials(rabbit_user, rabbit_password)
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, credentials=credentials))
-channel = connection.channel()
-
-# Declaração da fila como durável
-channel.queue_declare(queue='regional_create', durable=True)
-
-# Adicionar cabeçalhos compatíveis com o MassTransit
-headers = {
-    "Content-Type": "application/json",
-}
 
 # Caminho do arquivo CSV
 csv_file_path = 'dados.csv'
@@ -47,6 +28,4 @@ with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
         response = requests.request("POST", url, headers=headers, data=payload,verify=False)
 
         print(response.text)
-# Fechar a conexão
-connection.close()
-print("Conexão encerrada!")
+print("Requisição enviada!")

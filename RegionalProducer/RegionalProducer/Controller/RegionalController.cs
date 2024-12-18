@@ -129,27 +129,68 @@ public class RegionalController : ControllerBase
             {
                 return BadRequest("Dados inválidos.");
             }
+            var client = new HttpClient();
 
-            string rabbitUser = _configuration["Queue:User"] ?? "guest";
-            string rabbitPassword = _configuration["Queue:Password"] ?? "guest";
-            string rabbitHost = _configuration["Queue:Host"] ?? "localhost";
-
-            var factory = new ConnectionFactory()
+            var cities = new List<CityDto>();
+            var url = _configuration["Data:City"];
+            if (!string.IsNullOrEmpty(url))
             {
-                HostName = rabbitHost,
-                UserName = rabbitUser,
-                Password = rabbitPassword
-            };
+                var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, "City"));
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var cidadesStr = await response.Content.ReadAsStringAsync();
+                    cities = JsonConvert.DeserializeObject<List<CityDto>>(cidadesStr);
+                    if (cities != null && cities.Count > 0)
+                    {
+                        if (cities.Any(x => x.DDD == contact.DDD.ToString()))
+                        {
+                            if (cities.Any(x => x.Estado.ToLower() == contact.Estado.ToLower()))
+                            {
+                                if (cities.Any(x => x.NomeCidade.ToLower() == contact.Cidade.ToLower()))
+                                {
+                                    string rabbitUser = _configuration["Queue:User"] ?? "guest";
+                                    string rabbitPassword = _configuration["Queue:Password"] ?? "guest";
+                                    string rabbitHost = _configuration["Queue:Host"] ?? "localhost";
 
-            await using var connection = await factory.CreateConnectionAsync();
-            await using var channel = await connection.CreateChannelAsync();
-            await channel.QueueDeclareAsync("regional_create", true, false, false, null);
+                                    var factory = new ConnectionFactory()
+                                    {
+                                        HostName = rabbitHost,
+                                        UserName = rabbitUser,
+                                        Password = rabbitPassword
+                                    };
 
-            var message = JsonConvert.SerializeObject(contact);
-            var body = Encoding.UTF8.GetBytes(message);
-            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_create", body: body);
+                                    await using var connection = await factory.CreateConnectionAsync();
+                                    await using var channel = await connection.CreateChannelAsync();
+                                    await channel.QueueDeclareAsync("regional_create", true, false, false, null);
 
-            return Ok(new { success = true });
+                                    var message = JsonConvert.SerializeObject(contact);
+                                    var body = Encoding.UTF8.GetBytes(message);
+                                    await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_create", body: body);
+
+                                    return Ok(new { success = true });
+                                }
+                                else
+                                {
+                                    return Ok(new { success = false, message = "Cidade não encontrada" });
+                                }
+                            }
+                            else
+                            {
+                                return Ok(new { success = false, message = "Estado não encontrado" });
+                            }
+                        }
+                        else
+                        {
+                            return Ok(new { success = false, message = "DDD não encontrado" });
+                        }
+                    }
+                    else
+                    {
+                        return Ok(new { success = false, message = "Cidades não cadastradas" });
+                    }
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -157,6 +198,7 @@ public class RegionalController : ControllerBase
 
             return Ok(new { success = false });
         }
+        return Ok(new { success = false });
     }
 
     [HttpPut]
@@ -165,24 +207,66 @@ public class RegionalController : ControllerBase
     {
         try
         {
-            string rabbitUser = _configuration["Queue:User"] ?? "guest";
-            string rabbitPassword = _configuration["Queue:Password"] ?? "guest";
-            string rabbitHost = _configuration["Queue:Host"] ?? "localhost";
+            var client = new HttpClient();
 
-            var factory = new ConnectionFactory()
+            var cities = new List<CityDto>();
+            var url = _configuration["Data:City"];
+            if (!string.IsNullOrEmpty(url))
             {
-                HostName = rabbitHost,
-                UserName = rabbitUser,
-                Password = rabbitPassword
-            };
+                var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, "City"));
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var cidadesStr = await response.Content.ReadAsStringAsync();
+                    cities = JsonConvert.DeserializeObject<List<CityDto>>(cidadesStr);
+                    if (cities != null && cities.Count > 0)
+                    {
+                        if (cities.Any(x => x.DDD == contact.DDD.ToString()))
+                        {
+                            if (cities.Any(x => x.Estado.ToLower() == contact.Estado.ToLower()))
+                            {
+                                if (cities.Any(x => x.NomeCidade.ToLower() == contact.Cidade.ToLower()))
+                                {
+                                    string rabbitUser = _configuration["Queue:User"] ?? "guest";
+                                    string rabbitPassword = _configuration["Queue:Password"] ?? "guest";
+                                    string rabbitHost = _configuration["Queue:Host"] ?? "localhost";
 
-            await using var connection = await factory.CreateConnectionAsync();
-            await using var channel = await connection.CreateChannelAsync();
-            await channel.QueueDeclareAsync("regional_update", true, false, false, null);
-            var message = JsonConvert.SerializeObject(contact);
-            var body = Encoding.UTF8.GetBytes(message);
-            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_update", body: body);
-            return Ok(new { success = true });
+                                    var factory = new ConnectionFactory()
+                                    {
+                                        HostName = rabbitHost,
+                                        UserName = rabbitUser,
+                                        Password = rabbitPassword
+                                    };
+
+                                    await using var connection = await factory.CreateConnectionAsync();
+                                    await using var channel = await connection.CreateChannelAsync();
+                                    await channel.QueueDeclareAsync("regional_update", true, false, false, null);
+                                    var message = JsonConvert.SerializeObject(contact);
+                                    var body = Encoding.UTF8.GetBytes(message);
+                                    await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "regional_update", body: body);
+                                    return Ok(new { success = true });
+                                }
+                                else
+                                {
+                                    return Ok(new { success = false, message = "Cidade não encontrada" });
+                                }
+                            }
+                            else
+                            {
+                                return Ok(new { success = false, message = "Estado não encontrado" });
+                            }
+                        }
+                        else
+                        {
+                            return Ok(new { success = false, message = "DDD não encontrado" });
+                        }
+                    }
+                    else
+                    {
+                        return Ok(new { success = false, message = "Cidades não cadastradas" });
+                    }
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -190,11 +274,12 @@ public class RegionalController : ControllerBase
 
             return Ok(new { success = false });
         }
+        return Ok(new { success = false });
     }
 
     [HttpDelete]
-    [Route("")]
-    public async Task<IActionResult> Delete([FromBody] int id)
+    [Route("{id}")]
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
