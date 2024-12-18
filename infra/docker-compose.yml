@@ -31,6 +31,11 @@ services:
     ports:
       - "5000:80"
       - "8081:8080"
+    depends_on:
+      - regionalwriter
+      - regionaldata
+      - citydata
+      - rabbitmq
     environment:
       - DOTNET_ENVIRONMENT=Production
     networks:
@@ -55,31 +60,35 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=regional
       - RABBITMQ_DEFAULT_PASS=R3gional!234
+      - RABBITMQ_PROMETHEUS=true
+    command: rabbitmq-plugins enable rabbitmq_prometheus
     networks:
       - mynw
-  db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=tIy6obw6NF27
-    ports:
-      - 1433:1433
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - SA_PASSWORD=tIy6obw6NF27
+  #   ports:
+  #     - 1433:1433
 
-  init-db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    depends_on:
-      - db
-    environment:
-      - DEBIAN_FRONTEND=noninteractive
-      - ACCEPT_EULA=Y
-    volumes:
-      - ./scripts:/scripts
-    user: root
-    command: /bin/bash -c "apt-get update && apt-get install -y mssql-tools unixodbc-dev && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P tIy6obw6NF27 -i /scripts/cria_banco.sql"
+  # init-db:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - DEBIAN_FRONTEND=noninteractive
+  #     - ACCEPT_EULA=Y
+  #   volumes:
+  #     - ./scripts:/scripts
+  #   user: root
+  #   command: /bin/bash -c "apt-get update && apt-get install -y mssql-tools unixodbc-dev && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P tIy6obw6NF27 -i /scripts/cria_banco.sql"
   prometheus:
     image: prom/prometheus
     ports:
       - "9090:9090"
+    depends_on:
+      - regionalproducer
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
