@@ -30,7 +30,7 @@ namespace CityData.Controllers
 
                 if (cidadesEntity == null || !cidadesEntity.Any())
                 {
-                    return NoContent();
+                    return NotFound();
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace CityData.Controllers
 
             if (cidadeEntity == null)
             {
-                return NoContent();
+                return NotFound();
             }
             else
             {
@@ -79,14 +79,14 @@ namespace CityData.Controllers
             }
         }
 
-        [HttpGet("ByDDD/{id}")]
+        [HttpGet("ByDDD/{ddd}")]
         public async Task<ActionResult<CityDto>> GetByDDD(int ddd)
         {
             var cidadeEntity = await _service.GetByDDD(ddd);
 
             if (cidadeEntity == null)
             {
-                return NoContent();
+                return NotFound();
             }
             else
             {

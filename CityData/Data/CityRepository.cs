@@ -1,5 +1,6 @@
 ﻿using CityData.Core.Interface.Repository;
 using CityData.Core.Models.Entity;
+using Dapper;
 using Dapper.FastCrud;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -36,7 +37,7 @@ namespace CityData.Data
             try
             {
                 using IDbConnection dbConnection = new SqlConnection(_connectionString);
-                var cidade = await dbConnection.GetAsync(new Cidade { DDD = ddd.ToString() });
+                var cidade = await dbConnection.QueryFirstOrDefaultAsync<Cidade>($"select * from cidades where ddd = {ddd}");
                 return cidade;
             }
             catch (Exception ex)

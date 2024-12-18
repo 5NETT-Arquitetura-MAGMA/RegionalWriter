@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using RegionalData.Controllers.Dto;
 using RegionalData.Core.Interface.Service;
 
@@ -9,14 +8,11 @@ namespace RegionalData.Controllers
     [Route("[controller]")]
     public class ContactController : ControllerBase
     {
-        private const string CacheKey = "Contact";
         private readonly ILogger<ContactController> _logger;
-        private readonly IMemoryCache _memoryCache;
         private readonly IContactService _service;
 
-        public ContactController(ILogger<ContactController> logger, IMemoryCache memoryCache, IContactService service)
+        public ContactController(ILogger<ContactController> logger, IContactService service)
         {
-            _memoryCache = memoryCache;
             _logger = logger;
             _service = service;
         }
@@ -24,37 +20,28 @@ namespace RegionalData.Controllers
         [HttpGet("")]
         public async Task<ActionResult<List<ContactDto>>> GetAll()
         {
-            if (!_memoryCache.TryGetValue(CacheKey, out List<ContactDto> contatos))
+            var contatos = new List<ContactDto>();
+            var contatosEntity = await _service.GetAllAsync();
+
+            if (contatosEntity == null || !contatosEntity.Any())
             {
-                var contatosEntity = await _service.GetAllAsync();
-
-                if (contatosEntity == null || !contatosEntity.Any())
+                return NoContent();
+            }
+            else
+            {
+                foreach (var c in contatosEntity)
                 {
-                    return NoContent();
-                }
-                else
-                {
-                    contatos = new();
-
-                    foreach (var c in contatosEntity)
+                    contatos.Add(new ContactDto()
                     {
-                        contatos.Add(new ContactDto()
-                        {
-                            Id = c.Id,
-                            Email = c.Email,
-                            DDD = c.DDD,
-                            Cidade = c.Cidade,
-                            Estado = c.Estado,
-                            Nome = c.Nome,
-                            Telefone = c.Telefone
-                        });
-                    }
+                        Id = c.Id,
+                        Email = c.Email,
+                        DDD = c.DDD,
+                        Cidade = c.Cidade,
+                        Estado = c.Estado,
+                        Nome = c.Nome,
+                        Telefone = c.Telefone
+                    });
                 }
-
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(30));
-
-                _memoryCache.Set(CacheKey, contatos, cacheOptions);
             }
 
             return Ok(contatos);

@@ -87,7 +87,6 @@ public class RegionalController : ControllerBase
 
             return Ok(new { success = false });
         }
-        return NotFound();
     }
 
     [HttpGet("ByEmail/{email}")]

@@ -80,7 +80,7 @@ namespace RegionalProducer.Controller
                 var url = _configuration["Data:City"];
                 if (!string.IsNullOrEmpty(url))
                 {
-                    var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, $"/ByDDD/{ddd}"));
+                    var request = new HttpRequestMessage(HttpMethod.Get, Flurl.Url.Combine(url, $"/City/ByDDD/{ddd}"));
                     var response = await client.SendAsync(request);
                     if (response.IsSuccessStatusCode)
                     {
