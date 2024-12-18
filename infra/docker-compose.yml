@@ -1,0 +1,29 @@
+services:
+  rabbitmq:
+    image: masstransit/rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=regional
+      - RABBITMQ_DEFAULT_PASS=R3gional!234
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=tIy6obw6NF27
+    ports:
+      - 1433:1433
+
+  init-db: 
+    image: mcr.microsoft.com/mssql/server:2019-latest 
+    depends_on:
+      - db
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - ACCEPT_EULA=Y
+    volumes:
+      - ./scripts:/scripts
+    user: root
+    command: /bin/bash -c "apt-get update && apt-get install -y mssql-tools unixodbc-dev && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P tIy6obw6NF27 -i /scripts/cria_banco.sql"
