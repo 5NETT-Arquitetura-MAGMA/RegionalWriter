@@ -1,0 +1,75 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "develop","main" ]
+  pull_request:
+    branches: [ "develop","main" ]
+
+jobs:
+  build-producer:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: cd RegionalProducer/RegionalProducer && dotnet restore
+    - name: Build
+      run: cd RegionalProducer/RegionalProducer && dotnet build --no-restore
+    - name: Test
+      run: cd RegionalProducer/RegionalProducer && dotnet test --no-build --verbosity normal
+  build-regional-writer:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: cd RegionalWriter && dotnet restore
+    - name: Build
+      run: cd RegionalWriter && dotnet build --no-restore
+    - name: Test
+      run: cd RegionalWriter && dotnet test --no-build --verbosity normal
+
+  build-city-data:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: cd CityData && dotnet restore
+    - name: Build
+      run: cd CityData && dotnet build --no-restore
+    - name: Test
+      run: cd CityData && dotnet test --no-build --verbosity normal
+      
+  build-regional-data:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: cd RegionalData && dotnet restore
+    - name: Build
+      run: cd RegionalData && dotnet build --no-restore
+    - name: Test
+      run: cd RegionalData && dotnet test --no-build --verbosity normal
