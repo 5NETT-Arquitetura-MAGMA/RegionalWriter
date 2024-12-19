@@ -22,7 +22,7 @@ jobs:
     - name: Build
       run: cd RegionalProducer/RegionalProducer && dotnet build --no-restore
     - name: Test
-      run: cd RegionalProducer/RegionalProducer && dotnet test --no-build --verbosity normal
+      run: cd RegionalProducer.test && dotnet test --no-build --verbosity normal
   build-regional-writer:
 
     runs-on: ubuntu-latest
