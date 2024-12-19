@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core\Core.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityData", "CityData\CityData.csproj", "{EB3170B5-C8AA-4767-82EF-97509A759BB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegionalData", "RegionalData\RegionalData.csproj", "{0FF2DB94-986D-47C1-8283-059769A8D0A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegionalData", "RegionalData\RegionalData.csproj", "{0FF2DB94-986D-47C1-8283-059769A8D0A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegionalProducer.test", "RegionalProducer.test\RegionalProducer.test.csproj", "{67CFC5F9-696C-418C-AFE6-00A421F3C2C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF2DB94-986D-47C1-8283-059769A8D0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67CFC5F9-696C-418C-AFE6-00A421F3C2C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CFC5F9-696C-418C-AFE6-00A421F3C2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67CFC5F9-696C-418C-AFE6-00A421F3C2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CFC5F9-696C-418C-AFE6-00A421F3C2C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
