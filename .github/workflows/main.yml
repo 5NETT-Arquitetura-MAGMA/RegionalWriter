@@ -83,21 +83,21 @@ jobs:
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Login no ACR
-      run: az acr login --name MeuRegistry
+      run: az acr login --name techchallengeregistry
     - name: Construir e enviar as imagens para o ACR
       run: |
           cd infra
-          docker build -t MeuRegistry.azurecr.io/citydata:latest -f ../CityData/Dockerfile ../CityData
-          docker push MeuRegistry.azurecr.io/citydata:latest
+          docker build -t techchallengeregistry.azurecr.io/citydata:latest -f ../CityData/Dockerfile ../CityData
+          docker push techchallengeregistry.azurecr.io/citydata:latest
 
-          docker build -t MeuRegistry.azurecr.io/regionaldata:latest -f ../RegionalData/Dockerfile ../RegionalData
-          docker push MeuRegistry.azurecr.io/regionaldata:latest
+          docker build -t techchallengeregistry.azurecr.io/regionaldata:latest -f ../RegionalData/Dockerfile ../RegionalData
+          docker push techchallengeregistry.azurecr.io/regionaldata:latest
 
-          docker build -t MeuRegistry.azurecr.io/regionalproducer:latest -f ../RegionalProducer/RegionalProducer/Dockerfile ../RegionalProducer/RegionalProducer
-          docker push MeuRegistry.azurecr.io/regionalproducer:latest
+          docker build -t techchallengeregistry.azurecr.io/regionalproducer:latest -f ../RegionalProducer/RegionalProducer/Dockerfile ../RegionalProducer/RegionalProducer
+          docker push techchallengeregistry.azurecr.io/regionalproducer:latest
 
-          docker build -t MeuRegistry.azurecr.io/regionalwriter:latest -f ../RegionalWriter/Dockerfile ../RegionalWriter
-          docker push MeuRegistry.azurecr.io/regionalwriter:latest
+          docker build -t techchallengeregistry.azurecr.io/regionalwriter:latest -f ../RegionalWriter/Dockerfile ../RegionalWriter
+          docker push techchallengeregistry.azurecr.io/regionalwriter:latest
 
   deploy-to-aks:
     needs: build-and-push
