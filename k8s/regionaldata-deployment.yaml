@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regionaldata
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: regionaldata
+  template:
+    metadata:
+      labels:
+        app: regionaldata
+    spec:
+      containers:
+      - name: regionaldata
+        image: techchallengeregistry.azurecr.io/regionaldata:latest
+        ports:
+        - containerPort: 80

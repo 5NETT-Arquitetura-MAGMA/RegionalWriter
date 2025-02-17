@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: regionalwriter-service
+spec:
+  selector:
+    app: regionalwriter
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
