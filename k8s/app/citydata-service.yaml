@@ -9,7 +9,9 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+      name: http
     - protocol: TCP
       port: 8080
       targetPort: 8080
+      name: prometheus
   type: ClusterIP
