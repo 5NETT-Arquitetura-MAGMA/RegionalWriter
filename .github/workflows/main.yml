@@ -74,6 +74,7 @@ jobs:
     - name: Test
       run: cd RegionalData && dotnet test --no-build --verbosity normal
   build-and-push:
+    needs: [build-regional-data,build-city-data,build-regional-writer,build-producer]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do código
