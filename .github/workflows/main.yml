@@ -114,13 +114,6 @@ jobs:
       run: az acr login --name techchallengeregistry
     - name: Configurar kubectl
       run: az aks get-credentials --resource-group TechChallenge --name TechChallengeCluster
-    - name: Criar Secret do Kubernetes
-      run: |
-        kubectl create secret docker-registry acr-secret \
-          --docker-server=techchallengeregistry.azurecr.io \
-          --docker-username=${{ secrets.ACR_USERNAME }} \
-          --docker-password=${{ secrets.ACR_PASSWORD }} \
-          --docker-email=rm356475@fiap.com.br
     - name: Criar namespace monitoramento
       run: kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
     - name: Aplicar os manifests do Kubernetes
