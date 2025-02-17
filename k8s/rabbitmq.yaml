@@ -40,7 +40,9 @@ spec:
   - protocol: TCP
     port: 5672 # Porta acessível externamente
     targetPort: 5672 # Porta do container
+    name: amqp # Adicione o nome aqui
   - protocol: TCP
     port: 15672 # Porta acessível externamente (painel de gerenciamento)
     targetPort: 15672 # Porta do container
+    name: management # Adicione o nome aqui
   type: LoadBalancer # Ou ClusterIP se você não precisar de acesso externo direto
