@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: regionalwriter
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: regionalwriter
@@ -12,9 +12,12 @@ spec:
       labels:
         app: regionalwriter
     spec:
+      imagePullSecrets:  # <-- Deve estar aqui, não dentro do container
+      - name: acr-secret 
       containers:
       - name: regionalwriter
         image: techchallengeregistry.azurecr.io/regionalwriter:latest
         ports:
         - containerPort: 80
         - containerPort: 8080
+  

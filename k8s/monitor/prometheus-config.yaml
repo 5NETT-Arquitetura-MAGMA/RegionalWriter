@@ -2,7 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
-  namespace: monitoring
 data:
   prometheus.yml: |
     global:
@@ -11,16 +10,16 @@ data:
     scrape_configs:
     - job_name: 'regionalwriter'
       static_configs:
-      - targets: ['regionalwriter:8080']
+      - targets: ['regionalwriter-service:8080']
 
     - job_name: 'regionalproducer'
       static_configs:
-      - targets: ['regionalproducer:8080']
+      - targets: ['regionalproducer-service:8080']
 
     - job_name: 'regionaldata'
       static_configs:
-      - targets: ['regionaldata:8080']
+      - targets: ['regionaldata-service:8080']
 
     - job_name: 'citydata'
       static_configs:
-      - targets: ['citydata:8080']
+      - targets: ['citydata-service:8080']
