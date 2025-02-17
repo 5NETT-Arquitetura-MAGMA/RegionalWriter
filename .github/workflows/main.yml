@@ -115,6 +115,6 @@ jobs:
     - name: Configurar kubectl
       run: az aks get-credentials --resource-group TechChallenge --name TechChallengeCluster
     - name: Aplicar os manifests do Kubernetes
-      run: kubectl apply -f k8s/
+      run: kubectl apply -f k8s/app/
     - name: Implantar Grafana e Prometheus
-      run: kubectl apply -f infra/
+      run: kubectl apply -f k8s/monitor/
