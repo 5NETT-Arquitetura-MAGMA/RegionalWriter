@@ -6,17 +6,30 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shared-service
+      app: regionaldata
   template:
     metadata:
       labels:
-        app: shared-service
+        app: regionaldata
     spec:
-      imagePullSecrets:  # <-- Deve estar aqui, não dentro do container
+      imagePullSecrets: 
       - name: acr-secret 
       containers:
       - name: regionaldata
         image: techchallengeregistry.azurecr.io/regionaldata:latest
         ports:
         - containerPort: 8080
-  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: regionaldata
+spec:
+  selector:  
+    app: regionaldata
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http 
+  type: ClusterIP

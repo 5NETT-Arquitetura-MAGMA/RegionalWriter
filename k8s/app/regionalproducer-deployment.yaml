@@ -6,17 +6,30 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shared-service
+      app: regionalproducer
   template:
     metadata:
       labels:
-        app: shared-service
+        app: regionalproducer
     spec:
-      imagePullSecrets:  # <-- Deve estar aqui, não dentro do container
+      imagePullSecrets: 
       - name: acr-secret 
       containers:
       - name: regionalproducer
         image: techchallengeregistry.azurecr.io/regionalproducer:latest
         ports:
         - containerPort: 8080
-  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: regionalproducer
+spec:
+  selector:  
+    app: regionalproducer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http 
+  type: LoadBalancer

@@ -6,13 +6,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shared-service
+      app: citydata
   template:
     metadata:
       labels:
-        app: shared-service
+        app: citydata
     spec:
-      imagePullSecrets:  # <-- Deve estar aqui, não dentro do container
+      imagePullSecrets: 
       - name: acr-secret 
       containers:
       - name: citydata
@@ -25,10 +25,11 @@ kind: Service
 metadata:
   name: citydata
 spec:
-  selector:
-    app: shared-service  # Deve corresponder ao label do deployment
+  selector:  
+    app: citydata
   ports:
     - protocol: TCP
-      port: 8080  # Porta pelo qual os outros pods acessam
-      targetPort: 8080  # Porta interna do container
-  type: ClusterIP  # Mantém comunicação interna dentro do cluster
+      port: 8080
+      targetPort: 8080
+      name: http 
+  type: ClusterIP

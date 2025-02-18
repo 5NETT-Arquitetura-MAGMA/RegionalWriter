@@ -10,16 +10,16 @@ data:
     scrape_configs:
     - job_name: 'regionalwriter'
       static_configs:
-      - targets: ['regionalwriter-service:8080']
+      - targets: ['regionalwriter:8080']
 
     - job_name: 'regionalproducer'
       static_configs:
-      - targets: ['regionalproducer-service:8080']
+      - targets: ['regionalproducer:8080']
 
     - job_name: 'regionaldata'
       static_configs:
-      - targets: ['regionaldata-service:8080']
+      - targets: ['regionaldata:8080']
 
     - job_name: 'citydata'
       static_configs:
-      - targets: ['citydata-service:8080']
+      - targets: ['citydata:8080']
