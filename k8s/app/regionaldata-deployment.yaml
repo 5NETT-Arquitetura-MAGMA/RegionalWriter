@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: regionaldata
+      app: shared-service
   template:
     metadata:
       labels:
-        app: regionaldata
+        app: shared-service
     spec:
       imagePullSecrets:  # <-- Deve estar aqui, não dentro do container
       - name: acr-secret 
