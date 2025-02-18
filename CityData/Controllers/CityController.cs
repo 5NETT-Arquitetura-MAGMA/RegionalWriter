@@ -30,7 +30,7 @@ namespace CityData.Controllers
 
                 if (cidadesEntity == null || !cidadesEntity.Any())
                 {
-                    return NotFound();
+                    return NotFound("Cidades não encontradas");
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace CityData.Controllers
 
             if (cidadeEntity == null)
             {
-                return NotFound();
+                return NotFound("Cidade não encontrada");
             }
             else
             {
@@ -86,7 +86,7 @@ namespace CityData.Controllers
 
             if (cidadesEntity == null)
             {
-                return NotFound();
+                return NotFound("Cidade não encontrada");
             }
             else
             {
