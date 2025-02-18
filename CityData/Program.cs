@@ -30,8 +30,6 @@ app.UseHttpMetrics();
 
 #endregion Prometheus
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
