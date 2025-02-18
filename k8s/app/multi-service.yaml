@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: shared-service
+  ports:
+  - name: citydata
+    protocol: TCP
+    port: 8081  # Porta externa para citydata
+    targetPort: 80  # Porta do container
+  - name: citydata-prometheus
+    protocol: TCP
+    port: 8082  # Porta externa para citydata
+    targetPort: 8080  # Porta do container
+  - name: regionaldata
+    protocol: TCP
+    port: 8083  # Porta externa para regionaldata
+    targetPort: 80
+  - name: regionaldata-prometheus
+    protocol: TCP
+    port: 8084  # Porta externa para regionaldata
+    targetPort: 8080
+  - name: regionalproducer
+    protocol: TCP
+    port: 8085  # Porta externa para regionalproducer
+    targetPort: 80
+  - name: regionalproducer-prometheus
+    protocol: TCP
+    port: 8086  # Porta externa para regionalproducer
+    targetPort: 8080
+  - name: regionalwriter
+    protocol: TCP
+    port: 8087  # Porta externa para regionalwriter
+    targetPort: 80
+  - name: regionalwriter-prometheus
+    protocol: TCP
+    port: 8088  # Porta externa para regionalwriter
+    targetPort: 8080
+  type: LoadBalancer
