@@ -24,84 +24,105 @@ namespace CityData.Controllers
         [HttpGet("")]
         public async Task<ActionResult<List<CityDto>>> GetAll()
         {
-            if (!_memoryCache.TryGetValue(CacheKey, out List<CityDto> cidades))
+            try
             {
-                var cidadesEntity = await _service.GetAllAsync();
-
-                if (cidadesEntity == null || !cidadesEntity.Any())
+                if (!_memoryCache.TryGetValue(CacheKey, out List<CityDto> cidades))
                 {
-                    return NotFound("Cidades não encontradas");
-                }
-                else
-                {
-                    cidades = new();
+                    var cidadesEntity = await _service.GetAllAsync();
 
-                    foreach (var c in cidadesEntity)
+                    if (cidadesEntity == null || !cidadesEntity.Any())
                     {
-                        cidades.Add(new CityDto()
-                        {
-                            DDD = c.DDD,
-                            Estado = c.Estado,
-                            Id = c.Id,
-                            NomeCidade = c.NomeCidade
-                        });
+                        return NotFound("Cidades não encontradas");
                     }
+                    else
+                    {
+                        cidades = new();
+
+                        foreach (var c in cidadesEntity)
+                        {
+                            cidades.Add(new CityDto()
+                            {
+                                DDD = c.DDD,
+                                Estado = c.Estado,
+                                Id = c.Id,
+                                NomeCidade = c.NomeCidade
+                            });
+                        }
+                    }
+
+                    var cacheOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromMinutes(30));
+
+                    _memoryCache.Set(CacheKey, cidades, cacheOptions);
                 }
 
-                var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(30));
-
-                _memoryCache.Set(CacheKey, cidades, cacheOptions);
+                return Ok(cidades);
             }
-
-            return Ok(cidades);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $@"Falha ao buscar cidades. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CityDto>> Get(int id)
         {
-            var cidadeEntity = await _service.GetAsync(id);
+            try
+            {
+                var cidadeEntity = await _service.GetAsync(id);
 
-            if (cidadeEntity == null)
-            {
-                return NotFound("Cidade não encontrada");
-            }
-            else
-            {
-                var cidade = new CityDto()
+                if (cidadeEntity == null)
                 {
-                    NomeCidade = cidadeEntity.NomeCidade,
-                    Id = cidadeEntity.Id,
-                    Estado = cidadeEntity.Estado,
-                    DDD = cidadeEntity.DDD
-                };
-                return Ok(cidade);
+                    return NotFound("Cidade não encontrada");
+                }
+                else
+                {
+                    var cidade = new CityDto()
+                    {
+                        NomeCidade = cidadeEntity.NomeCidade,
+                        Id = cidadeEntity.Id,
+                        Estado = cidadeEntity.Estado,
+                        DDD = cidadeEntity.DDD
+                    };
+                    return Ok(cidade);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $@"Falha ao buscar cidade. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
             }
         }
 
         [HttpGet("ByDDD/{ddd}")]
         public async Task<ActionResult<List<CityDto>>> GetByDDD(int ddd)
         {
-            var cidadesEntity = await _service.GetByDDD(ddd);
+            try
+            {
+                var cidadesEntity = await _service.GetByDDD(ddd);
 
-            if (cidadesEntity == null)
-            {
-                return NotFound("Cidade não encontrada");
-            }
-            else
-            {
-                var cidades = new List<CityDto>();
-                foreach (var c in cidadesEntity)
+                if (cidadesEntity == null)
                 {
-                    cidades.Add(new CityDto()
-                    {
-                        NomeCidade = c.NomeCidade,
-                        Id = c.Id,
-                        Estado = c.Estado,
-                        DDD = c.DDD
-                    });
+                    return NotFound("Cidade não encontrada");
                 }
-                return Ok(cidades);
+                else
+                {
+                    var cidades = new List<CityDto>();
+                    foreach (var c in cidadesEntity)
+                    {
+                        cidades.Add(new CityDto()
+                        {
+                            NomeCidade = c.NomeCidade,
+                            Id = c.Id,
+                            Estado = c.Estado,
+                            DDD = c.DDD
+                        });
+                    }
+                    return Ok(cidades);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $@"Falha ao buscar cidades por ddd. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
             }
         }
     }
