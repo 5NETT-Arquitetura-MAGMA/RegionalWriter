@@ -24,7 +24,7 @@ with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
         headers = {
         'Content-Type': 'application/json'
         }
-        url = "http://localhost:8081/Contact"
+        url = "http://74.179.199.243:8083/Contact"
         response = requests.request("POST", url, headers=headers, data=payload,verify=False)
 
         print(response.text)

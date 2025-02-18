@@ -195,7 +195,7 @@ public class RegionalController : ControllerBase
         {
             Console.WriteLine($@"Falha ao criar contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}");
 
-            return Ok(new { success = false });
+            return Ok(new { success = false, message = $@"Falha ao criar contato. Mensagem de erro: {ex.Message} - Local do erro: {ex.StackTrace}" });
         }
         return Ok(new { success = false });
     }
