@@ -19,4 +19,16 @@ spec:
         image: techchallengeregistry.azurecr.io/citydata:latest
         ports:
         - containerPort: 8080
-  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: citydata
+spec:
+  selector:
+    app: shared-service  # Deve corresponder ao label do deployment
+  ports:
+    - protocol: TCP
+      port: 8080  # Porta pelo qual os outros pods acessam
+      targetPort: 8080  # Porta interna do container
+  type: ClusterIP  # Mantém comunicação interna dentro do cluster

@@ -189,6 +189,11 @@ public class RegionalController : ControllerBase
                         return Ok(new { success = false, message = "Cidades não cadastradas" });
                     }
                 }
+                else
+                {
+                    var cidadesStr = await response.Content.ReadAsStringAsync();
+                    return Ok(new { success = false, message = cidadesStr });
+                }
             }
         }
         catch (Exception ex)

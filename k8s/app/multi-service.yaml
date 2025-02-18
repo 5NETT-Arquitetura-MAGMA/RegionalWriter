@@ -6,20 +6,20 @@ spec:
   selector:
     app: shared-service
   ports:
-  - name: citydata
-    protocol: TCP
-    port: 8081  # Porta externa para citydata
-    targetPort: 8080  # Porta do container
-  - name: regionaldata
-    protocol: TCP
-    port: 8082  # Porta externa para regionaldata
-    targetPort: 8080
+  # - name: citydata
+  #   protocol: TCP
+  #   port: 8081  # Porta externa para citydata
+  #   targetPort: 8080  # Porta do container
+  # - name: regionaldata
+  #   protocol: TCP
+  #   port: 8082  # Porta externa para regionaldata
+  #   targetPort: 8080
   - name: regionalproducer
     protocol: TCP
-    port: 8083  # Porta externa para regionalproducer
+    port: 8080  # Porta externa para regionalproducer
     targetPort: 8080
-  - name: regionalwriter
-    protocol: TCP
-    port: 8084  # Porta externa para regionalwriter
-    targetPort: 8080
+  # - name: regionalwriter
+  #   protocol: TCP
+  #   port: 8084  # Porta externa para regionalwriter
+  #   targetPort: 8080
   type: LoadBalancer
