@@ -18,6 +18,5 @@ spec:
       - name: regionalproducer
         image: techchallengeregistry.azurecr.io/regionalproducer:latest
         ports:
-        - containerPort: 80
         - containerPort: 8080
   

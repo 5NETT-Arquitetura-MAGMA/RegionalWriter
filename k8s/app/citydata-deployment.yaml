@@ -18,6 +18,5 @@ spec:
       - name: citydata
         image: techchallengeregistry.azurecr.io/citydata:latest
         ports:
-        - containerPort: 80
         - containerPort: 8080
   
